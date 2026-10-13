@@ -17,13 +17,7 @@ const Navbar = () => {
 
   if (!user) return null;
 
-  const navItems = [
-    { path: '/', label: 'Dashboard', icon: Compass },
-    { path: '/trips', label: 'My Trips', icon: List },
-    { path: '/community', label: 'Community', icon: Users },
-    { path: '/calendar', label: 'Calendar', icon: Calendar },
-    { path: '/profile', label: 'Profile', icon: UserIcon },
-  ];
+
 
   if (user && user.email === 'admin@globetrotter.com') {
     navItems.push({ path: '/admin', label: 'Admin Panel', icon: ShieldAlert });
@@ -56,11 +50,10 @@ const Navbar = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  isActive
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive
                     ? 'bg-green-600 text-white shadow-md'
                     : 'text-gray-400 hover:bg-[#2d2d2d] hover:text-white'
-                }`}
+                  }`}
               >
                 <Icon size={16} />
                 <span>{item.label}</span>
@@ -96,9 +89,8 @@ const Navbar = () => {
 
       {/* Mobile Side Drawer Content */}
       <div
-        className={`fixed top-0 left-0 bottom-0 w-72 bg-[#1a1a1a] border-r border-[#2d2d2d] z-50 transform transition-transform duration-300 ease-in-out md:hidden flex flex-col justify-between p-6 shadow-2xl ${
-          drawerOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed top-0 left-0 bottom-0 w-72 bg-[#1a1a1a] border-r border-[#2d2d2d] z-50 transform transition-transform duration-300 ease-in-out md:hidden flex flex-col justify-between p-6 shadow-2xl ${drawerOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         <div className="space-y-6">
           {/* Drawer Header */}
@@ -140,11 +132,10 @@ const Navbar = () => {
                   key={item.path}
                   to={item.path}
                   onClick={() => setDrawerOpen(false)}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                    isActive
+                  className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${isActive
                       ? 'bg-green-600 text-white font-bold shadow-md'
                       : 'text-gray-300 hover:bg-[#252525] hover:text-white'
-                  }`}
+                    }`}
                 >
                   <Icon size={18} className={isActive ? 'text-white' : 'text-green-500'} />
                   <span>{item.label}</span>
