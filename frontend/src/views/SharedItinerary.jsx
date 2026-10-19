@@ -1,13 +1,8 @@
-```jsx
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import {
-  Calendar,
-  DollarSign,
-  Copy,
-  Home,
-} from 'lucide-react';
+import { Calendar, DollarSign, Copy, Home } from 'lucide-react';
 
 const SharedItinerary = () => {
   const { id } = useParams();
@@ -30,11 +25,11 @@ const SharedItinerary = () => {
       try {
         const data = await apiCall(`/api/trips/public/${id}`);
 
-        if (isMounted) {
-          if (!data?.trip) {
-            throw new Error('Invalid itinerary data received.');
-          }
+        if (!data?.trip) {
+          throw new Error('Invalid itinerary data received.');
+        }
 
+        if (isMounted) {
           setDetails(data);
         }
       } catch (err) {
@@ -52,11 +47,11 @@ const SharedItinerary = () => {
       }
     };
 
-    if (id) {
-      fetchPublicTrip();
-    } else {
+    if (!id) {
       setError('No itinerary ID was provided.');
       setLoading(false);
+    } else {
+      fetchPublicTrip();
     }
 
     return () => {
@@ -84,11 +79,16 @@ const SharedItinerary = () => {
         throw new Error('The copied trip ID was not returned.');
       }
 
-      alert('Trip successfully copied! Redirecting to your itinerary editor...');
+      alert(
+        'Trip successfully copied! Redirecting to your itinerary editor...'
+      );
       navigate(`/trips/${cloned.id}/edit`);
     } catch (err) {
       console.error('Failed to clone trip:', err);
-      alert('Error copying trip: ' + (err.message || 'Please try again.'));
+      alert(
+        'Error copying trip: ' +
+          (err.message || 'Please try again.')
+      );
     } finally {
       setCopying(false);
     }
@@ -111,12 +111,16 @@ const SharedItinerary = () => {
     });
   }
 
-  // Generate all dates included in the trip.
+  // Generate every date in the trip without UTC date shifts.
   const getDatesBetween = (start, end) => {
     if (!start || !end) return [];
 
-    const startDate = new Date(`${String(start).split('T')[0]}T00:00:00`);
-    const endDate = new Date(`${String(end).split('T')[0]}T00:00:00`);
+    const startDate = new Date(
+      `${String(start).split('T')[0]}T00:00:00`
+    );
+    const endDate = new Date(
+      `${String(end).split('T')[0]}T00:00:00`
+    );
 
     if (
       Number.isNaN(startDate.getTime()) ||
@@ -178,7 +182,7 @@ const SharedItinerary = () => {
       <div
         className="relative h-72 w-full bg-cover bg-center"
         style={{
-          backgroundImage: `url('${trip.coverPhoto || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1600'}')`,
+          backgroundImage: `url("${trip.coverPhoto || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1600'}")`,
         }}
       >
         <div className="absolute inset-0 bg-black/60 flex flex-col justify-end p-8 max-w-5xl mx-auto">
@@ -224,8 +228,8 @@ const SharedItinerary = () => {
               Love this itinerary?
             </h4>
             <p className="text-xs text-gray-400">
-              Copy this personalized day-by-day plan to your own trips, adjust
-              the dates, and customize activities.
+              Copy this personalized day-by-day plan to your own trips,
+              adjust the dates, and customize activities.
             </p>
           </div>
 
@@ -362,4 +366,3 @@ const SharedItinerary = () => {
 };
 
 export default SharedItinerary;
-```
